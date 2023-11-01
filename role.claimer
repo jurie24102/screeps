@@ -1,0 +1,20 @@
+var roleClaimer = {
+  run: function(creep) {
+    if (creep.room.name !== 'W281N23') {
+      var exitDir = Game.map.findExit(creep.room, 'W28N23');
+      var exit = creep.pos.findClosestByRange(exitDir);
+      creep.moveTo(exit);
+    } else {
+      var controller = creep.room.controller;
+      if (creep.claimController(controller) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(controller);
+      } else {
+        // Move to position (25, 34) after the controller is claimed
+        var targetPos = new RoomPosition(20, 41, creep.room.name);
+        creep.moveTo(targetPos);
+      }
+    }
+  }
+};
+
+module.exports = roleClaimer;

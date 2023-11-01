@@ -1,0 +1,25 @@
+var tower = {
+    run: function(tower) {
+        var towers = Game.spawns['Spawn1'].room.find(FIND_MY_STRUCTURES, {
+            filter: { structureType: STRUCTURE_TOWER }
+        });
+        for (var i = 0; i < towers.length; i++) {
+            var tower = towers[i];
+            if (tower) {
+                var target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: function(object) {
+                        return ((object.structureType == STRUCTURE_WALL || 
+                                object.structureType == STRUCTURE_RAMPART ||
+                                object.structureType == STRUCTURE_ROAD) &&
+                                (object.hits < 5000));
+                    }
+                });
+                if (target != undefined) {
+                    tower.repair(target);
+                }
+            }
+        }
+    }
+};
+
+module.exports = tower;

@@ -1,0 +1,29 @@
+var roleAttacker = {
+    run: function(creep) {
+        // Enter the target room
+        if (creep.room.name !== 'W281N21') {
+            var exitDir = Game.map.findExit(creep.room, 'W28N21');
+            var exit = creep.pos.findClosestByRange(exitDir);
+            creep.moveTo(exit);
+        }
+        
+        // Attack any hostile objects
+        var hostileTargets = creep.room.find(FIND_HOSTILE_CREEPS);
+        if (hostileTargets.length) {
+            if (creep.attack(hostileTargets[0]) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(hostileTargets[0], {visualizePathStyle: {stroke: '#ff0000'}});
+            }
+        
+        // If no hostile creeps are present, attack structures
+        } else {
+            var structureTargets = creep.room.find(FIND_HOSTILE_STRUCTURES);
+            if (structureTargets.length) {
+                if (creep.attack(structureTargets[0]) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(structureTargets[0], {visualizePathStyle: {stroke: '#ff0000'}});
+                }
+            }
+        }
+    }
+};
+
+module.exports = roleAttacker;
